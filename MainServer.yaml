@@ -1,0 +1,345 @@
+openapi: "3.0.2"
+info:
+  title: SOA_lab1
+  version: "1.0"
+  description: se.ifmo.ru сделанный криворукими студентами
+servers:
+  - url: https://api.server.test/main
+
+paths:
+  /labWorks:
+    get:
+      summary: Получение массива элементов LabWork с сортировкой, фильтрацией и постраничным выводом
+      operationId: getLabWorks
+      parameters:
+        - name: sort
+          in: query
+          description: "Поле для сортировки (например: creationDate)"
+          required: false
+          schema:
+            type: string
+        - name: filter
+          in: query
+          description: "Условие фильтрации (например: difficulty = NORMAL)"
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: "Номер страницы"
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+        - name: size
+          in: query
+          description: "Размер страницы (количество элементов на странице)"
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        200:
+          description: Успешное получение массива элементов
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LabWork'
+        400:
+          description: Ошибка запроса
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Ошибка запроса"
+
+
+    post:
+      summary: Добавление нового элемента LabWork
+      operationId: addLabWork
+      requestBody:
+        description: Данные для создания нового LabWork
+        required: true
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/LabWork'
+      responses:
+        200:
+          description: Успешное создание LabWork
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LabWork'
+        400:
+          description: Ошибка запроса
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Ошибка запроса"
+
+  /labworks/{id}:
+    get:
+      summary: Получение элемента LabWork по ID
+      operationId: getLabWorkById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Идентификатор LabWork
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Успешное получение элемента
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LabWork'
+        404:
+          description: LabWork не найден
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "LabWork не найден"
+    put:
+      summary: Обновление элемента LabWork
+      operationId: updateLabWork
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Идентификатор LabWork
+          schema:
+            type: integer
+      requestBody:
+        description: Данные для обновления LabWork
+        required: true
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/LabWork'
+      responses:
+        200:
+          description: Успешное обновление элемента
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LabWork'
+        404:
+          description: LabWork не найден
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "LabWork не найден"
+    delete:
+      summary: Удаление элемента LabWork по ID
+      operationId: deleteLabWork
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Идентификатор LabWork
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Успешное удаление
+        404:
+          description: LabWork не найден
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "LabWork не найден"
+
+  /labworks/max-tuned-in:
+    get:
+      summary: Вернуть объект с максимальным значением tunedInWorks
+      operationId: getMaxTunedInLabWork
+      responses:
+        200:
+          description: Успешное получение объекта с максимальным значением tunedInWorks
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LabWork'
+        404:
+          description: Объекты не найдены
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Объекты не найдены"
+
+  /labworks/group-by-description:
+    get:
+      summary: Сгруппировать объекты по полю description и вернуть количество элементов в каждой группе
+      operationId: groupLabWorksByDescription
+      responses:
+        200:
+          description: Успешная группировка и подсчет элементов в каждой группе
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    description:
+                      type: string
+                    count:
+                      type: integer
+        404:
+          description: Объекты не найдены
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Объекты не найдены"
+
+  /labworks/count-minimal-point:
+    get:
+      summary: Вернуть количество объектов, где значение minimalPoint меньше заданного
+      operationId: countLabWorksByMinimalPoint
+      parameters:
+        - name: minimalPoint
+          in: query
+          required: true
+          description: Значение minimalPoint
+          schema:
+            type: number
+            format: double
+      responses:
+        200:
+          description: Успешный подсчет объектов
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+        400:
+          description: Ошибка запроса
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Ошибка запроса"
+
+components:
+  schemas:
+    LabWork:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          minimum: 0
+          exclusiveMinimum: true
+          nullable: false
+          description: unique identifier and generated automatically
+          example: 1
+        name:
+          type: string
+          nullable: false
+          example: Pasha
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+        creationDate:
+          type: string
+          format: date-time
+          nullable: false
+          example: 2024-09-13T00:00:10Z
+        minimalPoint:
+          type: number
+          format: double
+          minimum: 0
+          exclusiveMinimum: true
+        description:
+          type: string
+          maxLength: 8818
+          nullable: true
+        tunedInWorks:
+          type: number
+          format: int64
+          nullable: true
+        difficulty:
+          $ref: '#/components/schemas/Difficulty'
+        discipline:
+          $ref: '#/components/schemas/Discipline'
+      required:
+        - id
+        - name
+    Coordinates:
+      type: object
+      properties:
+        x:
+          type: number
+          format: double
+        y:
+          type: number
+          format: int64
+          nullable: false
+    Discipline:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: false
+          example: Olga
+        labsCount:
+          type: integer
+          format: int32
+          nullable: false
+          example: 2
+      required:
+        - name
+    Difficulty:
+      type: string
+      enum:
+        - NORMAL
+        - HARD
+        - VERY_HARD
+        - IMPOSSIBLE
+        - TERRIBLE
+      example: NORMAL
+
+
+
+
+
+
+
+
+

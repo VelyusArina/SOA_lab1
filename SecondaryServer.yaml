@@ -1,0 +1,114 @@
+openapi: "3.0.2"
+info:
+  title: Дополнительный сервер
+  version: "1.0"
+  description: Второй веб-сервис для реализации ряда дополнительных операций, связанных с вызовом API первого сервиса
+servers:
+  - url: https://api.server.test/bars
+paths:
+  /bars/labwork/{labwork-id}/difficulty/decrease/{steps-count}:
+    post:
+      summary: Понизить сложность заданной лабораторной работы на указанное число шагов
+      operationId: downgradeLabWorkDifficulty
+      parameters:
+        - name: labwork-id
+          in: path
+          required: true
+          description: ID лабораторной работы
+          schema:
+            type: integer
+        - name: steps-count
+          in: path
+          required: true
+          description: Количество шагов для понижения
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        200:
+          description: Успешное изменение сложности лабораторной работы
+          content:
+            application/xml:
+              schema:
+                $ref: './MainServer.yaml#/components/schemas/LabWork'
+        400:
+          description: Ошибка запроса
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Ошибка запроса"
+        404:
+          description: Лабораторная работа не найдена
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Лабораторная работа не найдена"
+        409:
+          description: Ошибка при понижении сложности
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Невозможно понизить сложность на указанное число шагов"
+
+  /bars/discipline/{discipline-id}/labwork/{labwork-id}/remove:
+    post:
+      summary: Удалить лабораторную работу из программы дисциплины
+      operationId: deleteLabWorkFromDiscipline
+      parameters:
+        - name: discipline-id
+          in: path
+          required: true
+          description: ID дисциплины
+          schema:
+            type: integer
+        - name: labwork-id
+          in: path
+          required: true
+          description: ID лабораторной работы
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Успешное удаление лабораторной работы из дисциплины
+        400:
+          description: Ошибка запроса
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Ошибка запроса"
+        404:
+          description: Лабораторная работа или дисциплина не найдены
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Лабораторная работа или дисциплина не найдены"
+        409:
+          description: Ошибка при удалении
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Невозможно удалить лабораторную работу из дисциплины"
