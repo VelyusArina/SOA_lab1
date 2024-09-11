@@ -61,6 +61,16 @@ paths:
                   error:
                     type: string
                     example: "Невозможно понизить сложность на указанное число шагов"
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Внутренняя ошибка сервера"
 
   /bars/discipline/{discipline-id}/labwork/{labwork-id}/remove:
     post:
@@ -112,3 +122,13 @@ paths:
                   error:
                     type: string
                     example: "Невозможно удалить лабораторную работу из дисциплины"
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Внутренняя ошибка сервера"

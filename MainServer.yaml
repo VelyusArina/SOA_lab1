@@ -2,7 +2,7 @@ openapi: "3.0.2"
 info:
   title: SOA_lab1
   version: "1.0"
-  description: se.ifmo.ru сделанный криворукими студентами
+  description: Основной веб-сервис для реализации основных операций
 servers:
   - url: https://api.server.test/main
 
@@ -57,6 +57,26 @@ paths:
                   error:
                     type: string
                     example: "Ошибка запроса"
+        422:
+          description: Некорректные параметры фильтрации или сортировки
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Некорректные параметры фильтрации или сортировки"
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Внутренняя ошибка сервера"
 
 
     post:
@@ -86,6 +106,26 @@ paths:
                   error:
                     type: string
                     example: "Ошибка запроса"
+        409:
+          description: Конфликт данных (дубликат)
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Элемент с такими данными уже существует"
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Внутренняя ошибка сервера"
 
   /labworks/{id}:
     get:
@@ -105,6 +145,16 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/LabWork'
+        400:
+          description: Некорректный формат ID
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Некорректный формат ID"
         404:
           description: LabWork не найден
           content:
@@ -115,6 +165,16 @@ paths:
                   error:
                     type: string
                     example: "LabWork не найден"
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Внутренняя ошибка сервера"
     put:
       summary: Обновление элемента LabWork
       operationId: updateLabWork
@@ -139,6 +199,16 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/LabWork'
+        400:
+          description: Некорректный формат ID
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Некорректный формат ID"
         404:
           description: LabWork не найден
           content:
@@ -149,6 +219,16 @@ paths:
                   error:
                     type: string
                     example: "LabWork не найден"
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Внутренняя ошибка сервера"
     delete:
       summary: Удаление элемента LabWork по ID
       operationId: deleteLabWork
@@ -162,6 +242,16 @@ paths:
       responses:
         200:
           description: Успешное удаление
+        400:
+          description: Некорректный формат ID
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Некорректный формат ID"
         404:
           description: LabWork не найден
           content:
@@ -172,6 +262,16 @@ paths:
                   error:
                     type: string
                     example: "LabWork не найден"
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Внутренняя ошибка сервера"
 
   /labworks/max-tuned-in:
     get:
@@ -194,6 +294,16 @@ paths:
                   error:
                     type: string
                     example: "Объекты не найдены"
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Внутренняя ошибка сервера"
 
   /labworks/group-by-description:
     get:
@@ -213,6 +323,16 @@ paths:
                       type: string
                     count:
                       type: integer
+        400:
+          description: Некорректные параметры запроса
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Некорректные параметры запроса"
         404:
           description: Объекты не найдены
           content:
@@ -223,6 +343,16 @@ paths:
                   error:
                     type: string
                     example: "Объекты не найдены"
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Внутренняя ошибка сервера"
 
   /labworks/count-minimal-point:
     get:
@@ -256,6 +386,16 @@ paths:
                   error:
                     type: string
                     example: "Ошибка запроса"
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Внутренняя ошибка сервера"
 
 components:
   schemas:
