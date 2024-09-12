@@ -1,10 +1,10 @@
 openapi: "3.0.2"
 info:
-  title: Дополнительный сервер
+  title: Дополнительный сервис
   version: "1.0"
   description: Второй веб-сервис для реализации ряда дополнительных операций, связанных с вызовом API первого сервиса
 servers:
-  - url: https://api.server.test/bars
+  - url: https://localhost:8080/api/bars
 paths:
   /bars/labwork/{labwork-id}/difficulty/decrease/{steps-count}:
     post:
@@ -30,7 +30,7 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: './MainServer.yaml#/components/schemas/LabWork'
+                $ref: './MainService.yaml#/components/schemas/LabWork'
         400:
           description: Ошибка запроса
           content:

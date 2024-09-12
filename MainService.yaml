@@ -4,7 +4,7 @@ info:
   version: "1.0"
   description: Основной веб-сервис для реализации основных операций
 servers:
-  - url: https://api.server.test/main
+  - url: https://localhost:8080/api/main
 
 paths:
   /labWorks:
