@@ -9,7 +9,7 @@ paths:
   /bars/labwork/{labwork-id}/difficulty/decrease/{steps-count}:
     post:
       summary: Понизить сложность заданной лабораторной работы на указанное число шагов
-      operationId: downgradeLabWorkDifficulty
+      operationId: downgrade-labwork-difficulty
       parameters:
         - name: labwork-id
           in: path
@@ -75,7 +75,7 @@ paths:
   /bars/discipline/{discipline-id}/labwork/{labwork-id}/remove:
     post:
       summary: Удалить лабораторную работу из программы дисциплины
-      operationId: deleteLabWorkFromDiscipline
+      operationId: delete-labwork-discipline
       parameters:
         - name: discipline-id
           in: path

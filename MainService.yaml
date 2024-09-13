@@ -7,10 +7,10 @@ servers:
   - url: https://localhost:8080/api/main
 
 paths:
-  /labWorks:
+  /labworks:
     get:
       summary: Получение массива элементов LabWork с сортировкой, фильтрацией и постраничным выводом
-      operationId: getLabWorks
+      operationId: getlabworks
       parameters:
         - name: sort
           in: query
@@ -81,7 +81,7 @@ paths:
 
     post:
       summary: Добавление нового элемента LabWork
-      operationId: addLabWork
+      operationId: addlabwork
       requestBody:
         description: Данные для создания нового LabWork
         required: true
@@ -130,7 +130,7 @@ paths:
   /labworks/{id}:
     get:
       summary: Получение элемента LabWork по ID
-      operationId: getLabWorkById
+      operationId: getlabworkbyid
       parameters:
         - name: id
           in: path
@@ -177,7 +177,7 @@ paths:
                     example: "Внутренняя ошибка сервера"
     put:
       summary: Обновление элемента LabWork
-      operationId: updateLabWork
+      operationId: update-labwork
       parameters:
         - name: id
           in: path
@@ -231,7 +231,7 @@ paths:
                     example: "Внутренняя ошибка сервера"
     delete:
       summary: Удаление элемента LabWork по ID
-      operationId: deleteLabWork
+      operationId: delete-labwork
       parameters:
         - name: id
           in: path
@@ -276,7 +276,7 @@ paths:
   /labworks/max-tuned-in:
     get:
       summary: Вернуть объект с максимальным значением tunedInWorks
-      operationId: getMaxTunedInLabWork
+      operationId: getmax-tuned-in-labwork
       responses:
         200:
           description: Успешное получение объекта с максимальным значением tunedInWorks
@@ -308,7 +308,7 @@ paths:
   /labworks/group-by-description:
     get:
       summary: Сгруппировать объекты по полю description и вернуть количество элементов в каждой группе
-      operationId: groupLabWorksByDescription
+      operationId: group-labworks-by-description
       responses:
         200:
           description: Успешная группировка и подсчет элементов в каждой группе
@@ -354,15 +354,15 @@ paths:
                     type: string
                     example: "Внутренняя ошибка сервера"
 
-  /labworks/count-minimal-point:
+  /labworks/count/minimal:
     get:
-      summary: Вернуть количество объектов, где значение minimalPoint меньше заданного
-      operationId: countLabWorksByMinimalPoint
+      summary: Вернуть количество объектов, где значение minimal меньше заданного
+      operationId: count-labworks-by-minimal
       parameters:
-        - name: minimalPoint
+        - name: minimal
           in: query
           required: true
-          description: Значение minimalPoint
+          description: Значение minimal
           schema:
             type: number
             format: double
@@ -413,7 +413,7 @@ components:
         name:
           type: string
           nullable: false
-          example: Pasha
+          example: PashaShip
         coordinates:
           $ref: '#/components/schemas/Coordinates'
         creationDate:
@@ -457,7 +457,7 @@ components:
         name:
           type: string
           nullable: false
-          example: Olga
+          example: SOA
         labsCount:
           type: integer
           format: int32
